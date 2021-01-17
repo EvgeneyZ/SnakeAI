@@ -1,17 +1,20 @@
 class Settings:
     def __init__(self):
-        self.screen_width = 32
-        self.screen_height = 18
-        self.cell_size = 40
 
+        #You can modify these values!
+        self.screen_width = 16      #width of the board
+        self.screen_height = 9      #height of the board
+        self.cell_size = 80         #size if a single square
+        self.FPS = 30               #speed of the game
+
+        #Colors
         self.bg_color = (20, 0, 50)
-        self.line_color = (200, 200, 220)
+        self.line_color = (200, 200, 255)
         self.snake_color = (255, 255, 255)
         self.apple_color = (255, 0, 0)
         self.head_color = (124, 252, 0)
         self.tail_color = (135, 206, 250)
 
-        self.FPS = 30
 
     def get_neighbors(self, cell):
         x = cell[0]

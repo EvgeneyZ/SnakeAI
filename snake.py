@@ -6,7 +6,7 @@ s = Settings()
 class Snake:
 
     def __init__(self):
-        self.body = [(0, 0)]#[(2, 0), (1, 0), (0, 0)]
+        self.body = [(0, 0)]
         self.direction = (1, 0)
         self.dead = False
 
@@ -22,4 +22,12 @@ class Snake:
             self.dead = True
         elif head[0] < 0 or head[0] >= s.screen_width or head[1] < 0 or head[1] >= s.screen_height:
             self.dead = True
+
+    def __bool__(self):
+        if self.dead:
+            return False
+        return True
+
+    def __len__(self):
+        return len(self.body) 
 

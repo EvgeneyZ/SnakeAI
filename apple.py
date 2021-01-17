@@ -16,6 +16,5 @@ class Apple:
             self.position = (-1, -1)
             return
 
-        self.position = (randint(0, s.screen_width - 1), randint(0, s.screen_height - 1))
-        if self.position in self.snake.body:
-            self.randomize()
+        while self.position in self.snake.body:
+            self.position = (randint(0, s.screen_width - 1), randint(0, s.screen_height - 1))

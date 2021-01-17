@@ -10,11 +10,9 @@ class AI:
         self.height = s.screen_height
         self.path = []
         self.mode = "Apple"
-        self.counter = 0
-        self.max_counter = 10
 
     def pass_through(self, blocks, apple):
-        
+       
         head = blocks[0]
         snake_len = len(blocks)
 
@@ -39,7 +37,6 @@ class AI:
 
     def get_safe_direction(self, blocks):
         head = blocks[0]
-        tail = blocks[-1]
         blocks = blocks[:len(blocks) - 1]
 
         neighbors = s.get_neighbors(head)
@@ -59,13 +56,13 @@ class AI:
     def get_shortest_path(self, start, target, blocks, snake_len, tail=False, longest=False):
         path = []
         to_observe = [start]
-        exhausted = []
+        explored = []
         walls = blocks[:]
         if not tail:
             walls.pop(-1)
         walls = walls[::-1]
         offset = 0
-
+        
         while to_observe:
             cur = to_observe.pop(-1)
 
@@ -80,7 +77,13 @@ class AI:
             if cur == target:
                 walls.append(cur)
 
-                if tail or len(self.get_shortest_path(cur, walls[offset - 1], walls[::-1], snake_len, tail=True, longest=False)) >= 2:
+                if not tail:
+                    given_blocks = walls[::-1]
+                    tail_target = given_blocks[len(blocks)]
+                    given_blocks = given_blocks[:len(blocks) + 1]
+                    self.walls = given_blocks
+                    tail_path = self.get_shortest_path(cur, tail_target, given_blocks, snake_len, tail=True, longest=False)
+                if tail or len(tail_path) >= 2 or snake_len == 1:
                     return path
                 else:
                     return []
@@ -88,7 +91,7 @@ class AI:
             neighbors = s.get_neighbors(cur)
 
             for neighbor in neighbors[:]:
-                if neighbor in exhausted or neighbor in walls[offset:]:
+                if neighbor in explored or neighbor in walls[offset:]:
                     neighbors.remove(neighbor)
 
             if len(neighbors) != 0:
@@ -100,21 +103,22 @@ class AI:
                 if len(path) >= 2:
                     prev_path = [path[-2], path[-1]]
                 neighbors = sorted(neighbors, 
-                        key=lambda x : self.sort_key(x, target, walls[offset:], _reversed, tail, snake_len, prev_path), 
-                        reverse=_reversed)
+                        key=lambda x : self.sort_key(x, target, walls[offset:], _reversed, tail, snake_len, prev_path), reverse=_reversed)
+
                 for neighbor in neighbors:
                     if neighbor in to_observe:
                         to_observe.remove(neighbor)
                     to_observe.append(neighbor)
+            
             offset += 1
-            exhausted.append(cur)
+            explored.append(cur)
             walls.append(cur)
 
         return []
 
     def sort_key(self, x, target, blocks, reverse, tail, snake_len, prev=None):
 
-        if not tail and snake_len < s.screen_width * s.screen_height / 3:
+        if not tail and snake_len < self.width * self.height / 3:
             return s.find_distance(x, target)
 
         neighbors = s.get_neighbors(x)
@@ -124,9 +128,9 @@ class AI:
 
         number = len(neighbors)
 
-        if x[0] == 0 or x[0] == s.screen_width - 1:
+        if x[0] == 0 or x[0] == self.width - 1:
             number += 1
-        if x[1] == 0 or x[1] == s.screen_height - 1:
+        if x[1] == 0 or x[1] == self.height - 1:
             number += 1
             
         mult = 1
@@ -134,7 +138,7 @@ class AI:
             if x[0] - prev[1][0] == prev[1][0] - prev[0][0] and x[1] - prev[1][1] == prev[1][1] - prev[0][1]:
                 mult = 2
         
-        if snake_len > s.screen_width * s.screen_height * 7/10:
+        if snake_len > self.width * self.height * 7/10:
             mult = 1
 
         if reverse:
