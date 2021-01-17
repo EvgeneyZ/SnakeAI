@@ -8,4 +8,4 @@ You can change board size and game speed in settings.py.
 
 Made by @EvgeneyZimin
 
-<a href="https://imgflip.com/gif/4u6atk> <img src="https://i.imgflip.com/embed/4u6atk" title="Snake"/></a>
+<p><img src="https://img.itch.zone/aW1nLzQ5OTc5MDcuZ2lm/original/OKHFBF.gif"></p>
