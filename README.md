@@ -1,5 +1,5 @@
 # SnakeAI
-An AI for the game Snake written in Python.
+An AI for the game of Snake written in Python.
 
 1) Download all files in one folder
 2) Run main.py using Python interpreter
