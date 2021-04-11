@@ -1,8 +1,9 @@
-# SnakeAI
-An AI for the game of Snake written in Python.
+# Snake AI
+An AI for the Snake game written in Python using Pygame.
 
+# Download instructions:
 1) Download all files in one folder
-2) Run main.py using Python interpreter
+2) Run main.py with Python interpreter
 
 You can change board size and game speed in settings.py.
 
